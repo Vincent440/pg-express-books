@@ -1,41 +1,14 @@
 'use strict'
-// require('dotenv').config()
 // Using 'dotenv' to securely store environment variables
-const dotenv = require('dotenv')
-dotenv.config()
-const express = require('express')
-const { Pool, Client } = require('pg')
-
-// Using 'axios' for HTTP/AJAX requests to the google books volume API
+require('dotenv').config()
 const axios = require('axios')
-
-const googleVolumeApiURL = 'https://www.googleapis.com/books/v1/volumes'
-
+const express = require('express')
+const connection = require('./config/pool.js')
 const app = express()
 // Dynamically setting port either in the .env or defaults to port 8000 if nothing in the env.
 const PORT = process.env.PORT || 8000
-
-// Database Connection (pool.js)
-const pool = new Pool()
-
-// Database Test using async await to test connection
-// Comment out after succesful test
-//
-// const client = new Client()
-// ;(async () => {
-//   await client.connect()
-//   const res = await client.query('SELECT $1::text as message', ['PostgreSQL database connected succesfully!'])
-//   console.log(res.rows[0].message) // Hello world!
-//   await client.end()
-// })()
-
-const connection = {
-  /**
-   *  @param {string} sqlQueryText The SQL Query to send to the PostgreSQL database
-   *  @param params query parameters to send to the SQL database
-   */
-  query: (sqlQueryText, params) => pool.query(sqlQueryText, params)
-}
+// Using 'axios' for HTTP/AJAX requests to the google books volume API
+const googleVolumeApiURL = 'https://www.googleapis.com/books/v1/volumes'
 
 // Database (db.js)
 const booksDB = {
@@ -49,7 +22,7 @@ const booksDB = {
       .catch(dbSelectError => callBack(dbSelectError.stack, null))
   },
   insertOneBook: (bookToInsert, callBack) => {
-    console.log('Inserting book into Database:', bookToInsert)
+    console.log('Inserting book into Database:\n', bookToInsert)
     const sqlInsertOne =
       'INSERT INTO books (title, authors, description, categories, publisher, published_date, preview_link, query_string) VALUES($1, $2, $3, $4, $5, $6, $7, $8)'
     connection
@@ -67,7 +40,10 @@ const API = {
     axios
       .get(googleVolumeApiURL, {
         params: {
-          q: query.trim().replace(' ', '+'),
+          q: query
+            .trim()
+            .replace(' ', '+')
+            .toLowerCase(),
           key: process.env.KEY
         }
       })
@@ -81,56 +57,54 @@ const queryDatabaseForAllBooksMatchingUrlSearchQuery = (req, res, next) => {
     typeof req.query.search === 'undefined' ||
     req.query.search.trim() === ''
   ) {
-    return res.status(400).json({
-      ERROR_IN_REQUEST: `Please enter a valid search. Example of a search for Carl Sagan: 'http://localhost:${PORT}/?search=carl%20sagan'`
-    })
+    return res
+      .json({
+        ERROR_IN_REQUEST: `Please enter a valid search. Example of a search for Carl Sagan: 'http://localhost:${PORT}/?search=carl%20sagan'`
+      })
+      .status(400)
   }
   console.log(
     'Route middleware calling books controller to search for:',
-    req.query.search.trim()
+    req.query.search.trim().toLowerCase()
   )
 
   booksDB.getAllDbBooksByQueryString(
-    req.query.search.trim(),
+    req.query.search.trim().toLowerCase(),
     (databaseSelectError, dbBookResults) => {
-      console.log(
-        'Database response, error: ',
-        databaseSelectError,
-        '\n\nResults from Database: ',
-        dbBookResults,
-        '\n'
-      )
       if (databaseSelectError) {
-        return res.status(500).send(databaseSelectError)
+        console.log(databaseSelectError)
+        return res.send(databaseSelectError).status(500)
       }
       if (dbBookResults.rowCount === 0) {
+        console.log('Books not found, calling next()')
+        console.log(dbBookResults)
         return next()
       }
-      return res.status(200).json(dbBookResults.rows)
+      console.log('Books found logging and sending books as JSON.')
+      console.log(dbBookResults)
+      return res.json(dbBookResults.rows).status(200)
     }
   )
 }
 
 const getBooksFromApiByQueryString = (req, res, next) => {
-  const searchQuery = req.query.search.trim()
+  const searchQuery = req.query.search.trim().toLowerCase()
   console.log('Route middleware to search for new books from API')
   API.getBooksFromGoogleVolumeAPI(searchQuery, (apiError, apiBookResponse) => {
-    console.log(
-      'Searched google API for: ',
-      searchQuery,
-      '\nResponse data: ',
-      apiBookResponse
-    )
+    console.log('Searched google API for: ', searchQuery)
+
     if (apiError) {
-      return res.status(404).send(apiError)
+      console.log(apiError)
+      return res.send(apiError).status(404)
     }
 
+    console.log(apiBookResponse)
     if (typeof apiBookResponse === 'undefined') {
       return res
-        .status(200)
         .send(
           `Sorry, no books found for the search '${searchQuery}' perhaps try searching something else`
         )
+        .status(200)
     }
 
     apiBookResponse.forEach(volume => {
@@ -160,7 +134,7 @@ const getBooksFromApiByQueryString = (req, res, next) => {
       booksDB.insertOneBook(oneBookRow, error => {
         console.log('Inserting new book: ', oneBookRow)
         if (error) {
-          return res.status(404).send(error)
+          return res.send(error).status(404)
         }
       })
     })

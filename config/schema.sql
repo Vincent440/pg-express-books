@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS pg_express_books;
 
 CREATE DATABASE pg_express_books
   WITH
-  OWNER = Vincent
+  OWNER = "Vincent"
   ENCODING = 'UTF8'
   LC_COLLATE = 'English_United States.1252'
   LC_CTYPE = 'English_United States.1252'
@@ -26,4 +26,4 @@ CREATE TABLE public.books (
 TABLESPACE pg_default;
 
 ALTER TABLE public.books
-  OWNER TO Vincent;
+  OWNER TO "Vincent";

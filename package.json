@@ -12,6 +12,10 @@
     "pg": "^8.3.3"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
