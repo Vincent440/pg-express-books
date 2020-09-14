@@ -1,7 +1,12 @@
+const router = require('express').Router()
+const bookController = require('../controller/book-controller.js')
 
-// app.use(
-//   '/',
-//   bookController.queryDatabaseForAllBooksMatchingUrlSearchQuery,
-//   bookController.getBooksFromApiByQueryString,
-//   bookController.queryDatabaseForAllBooksMatchingUrlSearchQuery
-// )
+
+router.get(
+  '*',
+  bookController.queryDatabaseForAllBooksMatchingUrlSearchQuery,
+  bookController.getBooksFromApiByQueryString,
+  bookController.queryDatabaseForAllBooksMatchingUrlSearchQuery
+)
+
+module.exports = router;
