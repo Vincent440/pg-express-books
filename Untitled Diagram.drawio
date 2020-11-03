@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-11-03T01:37:26.605Z" agent="5.0 (Windows)" etag="GeihWYcHRK4CP7rTRb2b" version="13.8.6" type="github">
+<mxfile host="app.diagrams.net" modified="2020-11-03T01:37:40.466Z" agent="5.0 (Windows)" etag="4HWGTnkn6st52lgYNFPH" version="13.8.6" type="github">
   <diagram name="Page-1" id="c9db0220-8083-56f3-ca83-edcdcd058819">
     <mxGraphModel dx="2062" dy="1124" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1.5" pageWidth="826" pageHeight="1169" background="#ffffff" math="0" shadow="0">
       <root>
@@ -175,23 +175,6 @@
           <mxGeometry y="1" width="80" height="40" relative="1" as="geometry">
             <mxPoint x="100" y="-60" as="offset" />
           </mxGeometry>
-        </mxCell>
-        <mxCell id="BvrB4RYe495Yr1SO_upS-1" value="" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rect;fillColor=#222222;strokeColor=none;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#000000;align=center;" vertex="1" parent="1">
-          <mxGeometry x="50" y="80" width="1150" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="BvrB4RYe495Yr1SO_upS-2" value="&lt;font style=&quot;font-size: 16px&quot;&gt;PG-React&lt;/font&gt;" style="html=1;shadow=0;dashed=0;fillColor=none;strokeColor=none;shape=mxgraph.bootstrap.rect;fontColor=#999999;fontSize=14;whiteSpace=wrap;" vertex="1" parent="BvrB4RYe495Yr1SO_upS-1">
-          <mxGeometry width="115" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="BvrB4RYe495Yr1SO_upS-3" value="&lt;font style=&quot;font-size: 14px&quot;&gt;Saved&lt;/font&gt;" style="html=1;shadow=0;dashed=0;fillColor=none;strokeColor=none;shape=mxgraph.bootstrap.rect;fontColor=#999999;spacingRight=30;whiteSpace=wrap;" vertex="1" parent="BvrB4RYe495Yr1SO_upS-1">
-          <mxGeometry x="100.01" width="130" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="BvrB4RYe495Yr1SO_upS-4" value="42" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=8;fillColor=#ff0000;strokeColor=none;fontColor=#ffffff;whiteSpace=wrap;" vertex="1" parent="BvrB4RYe495Yr1SO_upS-3">
-          <mxGeometry x="1" y="0.5" width="25" height="16" relative="1" as="geometry">
-            <mxPoint x="-30" y="-8" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="BvrB4RYe495Yr1SO_upS-5" value="Log Out" style="html=1;shadow=0;dashed=0;fillColor=none;strokeColor=none;shape=mxgraph.bootstrap.rect;fontColor=#999999;whiteSpace=wrap;" vertex="1" parent="BvrB4RYe495Yr1SO_upS-1">
-          <mxGeometry x="1049.375" width="100.625" height="40" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
