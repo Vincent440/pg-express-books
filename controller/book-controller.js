@@ -8,7 +8,7 @@ const queryDatabaseForAllBooksMatchingUrlSearchQuery = (req, res, next) => {
   ) {
     return res
       .json({
-        ERROR_IN_REQUEST: `Please enter a valid search. Example of a search for Carl Sagan: 'http://localhost:${process.env.PORT || 8000}/?search=carl%20sagan'`
+        ERROR_IN_REQUEST: `Please enter a valid search. Example of a search for Carl Sagan: 'http://localhost:${process.env.PORT || 3001}/api/?search=carl%20sagan'`
       })
       .status(400)
   }

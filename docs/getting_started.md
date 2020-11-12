@@ -8,12 +8,13 @@
     * yarn `yarn`
 
 1. Create a `.env` file and place your database credentials inside it example: 
-```.env
+
+```r
 PGUSER='postgres'
 HOST='localhost'
 PGPASSWORD='secret_password_text'
 PGDATABASE='pg_express_books_db'
 PGPORT=5432
+# Optional 
+KEY='google_books_volume_API_key'
 ```
-
-
