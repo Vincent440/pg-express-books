@@ -1,21 +1,22 @@
 {
   "name": "pg-express-books",
+  "private": true,
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "repository": "git@github.com:Vincent440/pg-express-books.git",
   "author": "vince s <vinceshury@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "pg": "^8.3.3"
+    "pg": "^8.5.1"
   },
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.6"
   }
 }

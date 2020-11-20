@@ -26,11 +26,11 @@ const queryDatabaseForAllBooksMatchingUrlSearchQuery = (req, res, next) => {
       }
       if (dbBookResults.rowCount === 0) {
         console.log('Books not found, calling next()')
-        console.log(dbBookResults)
+        // console.log(dbBookResults)
         return next()
       }
       console.log('Books found logging and sending books as JSON.')
-      console.log(dbBookResults)
+      // console.log(dbBookResults)
       return res.json(dbBookResults.rows).status(200)
     }
   )
@@ -38,16 +38,16 @@ const queryDatabaseForAllBooksMatchingUrlSearchQuery = (req, res, next) => {
 
 const getBooksFromApiByQueryString = (req, res, next) => {
   const searchQuery = req.query.search.trim().toLowerCase()
-  console.log('Route middleware to search for new books from API')
+  // console.log('Route middleware to search for new books from API')
   API.getBooksFromGoogleVolumeAPI(searchQuery, (apiError, apiBookResponse) => {
-    console.log('Searched google API for: ', searchQuery)
+    console.log(`Searched google API for: ${searchQuery}`)
 
     if (apiError) {
       console.log(apiError)
       return res.send(apiError).status(404)
     }
 
-    console.log(apiBookResponse)
+    // console.log(apiBookResponse)
     if (typeof apiBookResponse === 'undefined') {
       return res
         .send(
@@ -81,7 +81,7 @@ const getBooksFromApiByQueryString = (req, res, next) => {
       ]
 
       booksDB.insertOneBook(oneBookRow, error => {
-        console.log('Inserting new book: ', oneBookRow)
+        // console.log('Inserting new book: ', oneBookRow)
         if (error) {
           return res.send(error).status(404)
         }
