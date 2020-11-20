@@ -12,11 +12,17 @@
     "express": "^4.17.1",
     "pg": "^8.5.1"
   },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.6"
+  },
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.6"
+    "dev": "concurrently \"nodemon --ignore 'client/*'\" \"yarn client\"",
+    "client": "cd client && yarn start",
+    "install": "cd client && yarn",
+    "build": "cd client && yarn build",
+    "heroku-postbuild": "yarn build",
+    "test": "echo 'Error: Write tests for server' && exit 1"
   }
 }
