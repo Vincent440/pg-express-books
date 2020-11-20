@@ -5,6 +5,7 @@ import {useEffect} from 'react'
 function App() {
   useEffect(() =>{
     console.log("App loaded")
+    fetch('/api/?search=Avis+Lang').then(res => res.json().then(data => console.log(data)))
   })
   return (
     <div className="App">

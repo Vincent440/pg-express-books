@@ -17,7 +17,7 @@
     "nodemon": "^2.0.6"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "NODE_ENV node server.js || yarn dev",
     "dev": "concurrently \"nodemon --ignore 'client/*'\" \"yarn client\"",
     "client": "cd client && yarn start",
     "install": "cd client && yarn",
@@ -26,7 +26,7 @@
     "test": "echo 'Error: Write tests for server' && exit 1"
   },
   "engines": {
-    "node": "*",
+    "node": ">=12",
     "yarn": "*"
   }
 }
