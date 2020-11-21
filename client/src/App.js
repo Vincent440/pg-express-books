@@ -7,7 +7,7 @@ function App () {
     console.log('App loaded')
     fetch('/api/?search=Avis+Lang')
       .then(res => res.json().then(data => console.log(data)))
-      .catch(errMsg => console.err(errMsg))
+      .catch(errMsg => console.error(errMsg))
   })
   return (
     <div className='App'>

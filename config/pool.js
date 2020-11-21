@@ -1,7 +1,9 @@
 const { Pool } = require('pg')
 
-// Pass deployed credentials or empty object to pull from .env
-const pool = new Pool(process.env.DATABASE_URL || {})
+// Pass deployed credentials Database URL or  empty to pull from .env
+const connectionString = process.env.DATABASE_URL || ''
+
+const pool = new Pool({ connectionString })
 
 module.exports = {
   /**
