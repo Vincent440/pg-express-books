@@ -7,7 +7,7 @@ function App () {
 
   useEffect(() => {
     console.log('App loaded')
-    fetch('/api/?search=Avis+Lang')
+    fetch('/api/books?search=Avis+Lang')
       .then(res =>
         res.json().then(data => {
           setBooks(data)
