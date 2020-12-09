@@ -18,15 +18,10 @@
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "concurrently \"nodemon --ignore 'client/*'\" \"yarn client\"",
-    "client": "cd client && yarn start",
-    "install": "cd client && yarn",
-    "build": "cd client && yarn build",
-    "heroku-postbuild": "yarn build",
-    "test": "echo 'Error: Write tests for server' && exit 1"
-  },
-  "engines": {
-    "node": "*",
-    "yarn": "*"
+    "dev": "concurrently \"nodemon --ignore 'client/*'\" \"npm run client\"",
+    "client": "cd client && npm run start",
+    "install": "cd client && npm install",
+    "build": "cd client && npm runbuild",
+    "heroku-postbuild": "npm run build"
   }
 }
