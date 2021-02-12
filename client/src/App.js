@@ -9,21 +9,24 @@ function App() {
     getBooksByQuery()
   }, [])
 
-  const getBooksByQuery = (searchQuery ='Avis+Lang') => {
-    fetch('/api/books?search='+searchQuery)
-    .then(res =>
-      res.json().then(data => {
-        console.log(data);
-        setBooks(data)
-        return
-      })
-    )
-    .catch(errMsg => console.error(errMsg))
+  const getBooksByQuery = (searchQuery = 'Avis+Lang') => {
+    fetch(`/api/books?search=${encodeURI(searchQuery).toLowerCase()}`)
+      .then(res =>
+        res.json().then(data => {
+          console.log(data);
+          setBooks(data)
+          return
+        })
+      )
+      .catch(errMsg => console.error(errMsg))
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    // console.log(`submitted: ${query}`)
+    console.log(`${query}`)
+    // Don't search for empty queries
+    if (query === '') return;
+
     getBooksByQuery(query)
   }
   const handleChange = (event) => {
@@ -35,15 +38,21 @@ function App() {
     <>
       <header className='p-5 bg-dark border border-top-0 rounded'>
         <h1 className='text-center display-2 p-3 text-light'>React Books</h1>
-        <div className='card'>
+        <div className='card container'>
           <h2 className='card-title text-center'>Search Google Volume API</h2>
 
           <form id='book-form' className='card-body' onSubmit={handleSubmit}>
             <div className="form-floating mb-3">
-              <input type="text" className="form-control" id="book-input" placeholder="Search by Title, Author, Etc." 
+              <input type="text" className="form-control" id="book-input" placeholder="Search by Title, Author, Etc."
                 value={query} onChange={handleChange}
               />
               <label htmlFor="book-input">Search by Title, Author, Etc.</label>
+            </div>
+            <div className='row'>
+              <div className='col text-center'>
+
+                <button type="submit" onSubmit={handleSubmit} className="btn btn-primary btn-lg px-5">Search</button>
+              </div>
             </div>
           </form>
 
@@ -58,7 +67,7 @@ function App() {
                 <div className='card m-3'>
                   <ul className='list-group list-group-flush p-3'>
                     {
-                      books.map(({ title, description = '', authors ='' }) => {
+                      books.map(({ title, description = '', authors = '' }) => {
                         return (
                           <li key={title} className='list-group-item p-3'>
                             <h3>Title: {title}</h3>
@@ -68,7 +77,7 @@ function App() {
                             }
 
                             <p>
-                              Authors: {authors ? authors.join(', ') : null }
+                              Authors: {authors ? authors.join(', ') : null}
                             </p>
                           </li>
                         )
