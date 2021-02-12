@@ -12,8 +12,7 @@ const queryDatabaseForAllBooksMatchingUrlSearchQuery = (req, res, next) => {
       })
       .status(400)
   }
-  console.log(
-    'queryDatabaseForAllBooksMatchingUrlSearchQuery();, search query:',
+  console.log('searching for: ',
     req.query.search.trim().toLowerCase()
   )
 

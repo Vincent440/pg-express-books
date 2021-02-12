@@ -3,6 +3,6 @@ import App from './App';
 
 test('renders pg express books header', () => {
   render(<App />);
-  const hOneElement = screen.getByText(/pg express books/i);
+  const hOneElement = screen.getByText(/react books/i);
   expect(hOneElement).toBeInTheDocument();
 });
