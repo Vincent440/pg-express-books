@@ -12,8 +12,7 @@ const queryDatabaseForAllBooksMatchingUrlSearchQuery = (req, res, next) => {
       })
       .status(400)
   }
-  console.log(
-    'Route middleware calling books controller to search for:',
+  console.log('searching for: ',
     req.query.search.trim().toLowerCase()
   )
 
@@ -29,7 +28,7 @@ const queryDatabaseForAllBooksMatchingUrlSearchQuery = (req, res, next) => {
         // console.log(dbBookResults)
         return next()
       }
-      console.log('Books found logging and sending books as JSON.')
+      // console.log('Books found logging and sending books as JSON.')
       // console.log(dbBookResults)
       return res.json(dbBookResults.rows).status(200)
     }
@@ -51,7 +50,7 @@ const getBooksFromApiByQueryString = (req, res, next) => {
     if (typeof apiBookResponse === 'undefined') {
       return res
         .send(
-          `Sorry, no books found for the search '${searchQuery}' perhaps try searching something else`
+          `Sorry, no books found for the search '${searchQuery}' try searching something else`
         )
         .status(200)
     }
@@ -66,9 +65,11 @@ const getBooksFromApiByQueryString = (req, res, next) => {
         publishedDate,
         previewLink
       } = volume.volumeInfo
+
       typeof description === 'undefined'
         ? null
         : (description = description.substring(0, 140))
+
       const oneBookRow = [
         title,
         authors,
