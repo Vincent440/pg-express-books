@@ -85,34 +85,18 @@ const getBooksFromApiByQueryString = (req, res, next) => {
 
       booksList.push(oneBookRow);
 
-      // booksDB.insertBook(oneBookRow)
-      //   .then(results => {
-      //     console.log(`Inserted ${results.rowCount} Book`)
-      //     console.log(results.rows[0])
-      //     // booksList.push(results.rows[0])
-      //   })
-      //   .catch(error => {
-      //     return console.log(error)
-      //   })
-
-
     })// End of for Each Loop
 
     const promiseList = booksList.map(book => booksDB.insertBook(book))
-    // console.log(promiseList)
+
     Promise.all(promiseList)
-      .then(results => {
-        console.log(results)
-        res.json(results).status(200)
+      .then((results) => {
+        next()
+        console.log(`Inserted ${results.length} Books, called next()`);
       }).catch(error => {
         console.log(error);
-        res.json(error.stack)
+        next()
       })
-    // setTimeout(() => {
-    //   // Set timeout and call database to check for search query
-    //   // next()
-    //   // res.json(booksList).status(200)
-    // }, 250)
   })
 
 }

@@ -3,7 +3,6 @@ const connection = require('../config/pool.js')
 
 module.exports = {
   getAllDbBooksByQueryString: (queryString, callBack) => {
-    // console.log('Getting all books for the query string: ', queryString)
     const sqlSelectWhereQueryString =
       'SELECT title, authors, description, categories, publisher, published_date, preview_link FROM books WHERE query_string = $1'
     connection
@@ -13,15 +12,13 @@ module.exports = {
   },
   insertBook: (newBook) => {
     return new Promise((resolve, reject) => {
-      // console.log('Inserting book into Database:\n', bookToInsert)
       const sqlInsertOne =
         `INSERT INTO books (title, authors, description, categories, publisher, published_date, preview_link, query_string) 
-        VALUES($1, $2, $3, $4, $5, $6, $7, $8) 
-        RETURNING title, authors, description, categories, publisher, published_date, preview_link`;
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8)`;
 
       connection
         .query(sqlInsertOne, newBook)
-        .then((results) => resolve(results.rows[0]))
+        .then((result) => resolve(result.rowCount))
         .catch(dbInsertError => reject(dbInsertError.stack))
     })
   },
