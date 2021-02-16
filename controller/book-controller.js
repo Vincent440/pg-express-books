@@ -38,14 +38,13 @@ const queryDatabaseForAllBooksMatchingUrlSearchQuery = (req, res, next) => {
 const getBooksFromApiByQueryString = (req, res, next) => {
   const searchQuery = req.query.search.trim().toLowerCase()
   // console.log('Route middleware to search for new books from API')
-  API.getBooksFromGoogleVolumeAPI(searchQuery, (apiError, apiBookResponse) => {
-    console.log(`Searched google API for: ${searchQuery}`)
 
+  API.getBooksFromGoogleVolumeAPI(searchQuery, (apiError, apiBookResponse) => {
     if (apiError) {
       console.log(apiError)
       return res.send(apiError).status(404)
     }
-
+    console.log(`Searched google API for: ${searchQuery}`)
     // console.log(apiBookResponse)
     if (typeof apiBookResponse === 'undefined') {
       return res
@@ -55,20 +54,22 @@ const getBooksFromApiByQueryString = (req, res, next) => {
         .status(200)
     }
 
+    const booksList = []
+
     apiBookResponse.forEach(volume => {
       let {
-        title,
-        authors,
-        description,
-        categories,
-        publisher,
-        publishedDate,
-        previewLink
+        title = '',
+        authors = [],
+        description = '',
+        categories = [],
+        publisher = '',
+        publishedDate = '',
+        previewLink = ''
       } = volume.volumeInfo
 
-      typeof description === 'undefined'
-        ? null
-        : (description = description.substring(0, 140))
+      if (description !== '') {
+        description = description.substring(0, 140)
+      }
 
       const oneBookRow = [
         title,
@@ -81,18 +82,39 @@ const getBooksFromApiByQueryString = (req, res, next) => {
         searchQuery
       ]
 
-      booksDB.insertOneBook(oneBookRow, error => {
-        // console.log('Inserting new book: ', oneBookRow)
-        if (error) {
-          return res.send(error).status(404)
-        }
+
+      booksList.push(oneBookRow);
+
+      // booksDB.insertBook(oneBookRow)
+      //   .then(results => {
+      //     console.log(`Inserted ${results.rowCount} Book`)
+      //     console.log(results.rows[0])
+      //     // booksList.push(results.rows[0])
+      //   })
+      //   .catch(error => {
+      //     return console.log(error)
+      //   })
+
+
+    })// End of for Each Loop
+
+    const promiseList = booksList.map(book => booksDB.insertBook(book))
+    // console.log(promiseList)
+    Promise.all(promiseList)
+      .then(results => {
+        console.log(results)
+        res.json(results).status(200)
+      }).catch(error => {
+        console.log(error);
+        res.json(error.stack)
       })
-    })
-    setTimeout(() => {
-      // Set timeout and call database to check for search query
-      next()
-    }, 250)
+    // setTimeout(() => {
+    //   // Set timeout and call database to check for search query
+    //   // next()
+    //   // res.json(booksList).status(200)
+    // }, 250)
   })
+
 }
 
 module.exports = {

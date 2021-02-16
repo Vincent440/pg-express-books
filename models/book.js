@@ -11,13 +11,18 @@ module.exports = {
       .then(dbResults => callBack(null, dbResults))
       .catch(dbSelectError => callBack(dbSelectError.stack, null))
   },
-  insertOneBook: (bookToInsert, callBack) => {
-    // console.log('Inserting book into Database:\n', bookToInsert)
-    const sqlInsertOne =
-      'INSERT INTO books (title, authors, description, categories, publisher, published_date, preview_link, query_string) VALUES($1, $2, $3, $4, $5, $6, $7, $8)'
-    connection
-      .query(sqlInsertOne, bookToInsert)
-      .then(() => callBack(null))
-      .catch(dbInsertError => callBack(dbInsertError.stack))
-  }
+  insertBook: (newBook) => {
+    return new Promise((resolve, reject) => {
+      // console.log('Inserting book into Database:\n', bookToInsert)
+      const sqlInsertOne =
+        `INSERT INTO books (title, authors, description, categories, publisher, published_date, preview_link, query_string) 
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8) 
+        RETURNING title, authors, description, categories, publisher, published_date, preview_link`;
+
+      connection
+        .query(sqlInsertOne, newBook)
+        .then((results) => resolve(results.rows[0]))
+        .catch(dbInsertError => reject(dbInsertError.stack))
+    })
+  },
 }
