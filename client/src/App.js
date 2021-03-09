@@ -14,8 +14,7 @@ function App() {
       .then(res =>
         res.json().then(data => {
           console.log(data);
-          setBooks(data)
-          return
+          return setBooks(data);
         })
       )
       .catch(errMsg => console.error(errMsg))
@@ -28,6 +27,7 @@ function App() {
     if (query === '') return;
 
     getBooksByQuery(query)
+    setQuery('')
   }
   const handleChange = (event) => {
     // console.log(`typed: ${event.target.value}`)
@@ -64,28 +64,28 @@ function App() {
             {books.length === 0 ? (
               <h3 className='p-3 m-3 text-center'>No books to display.</h3>
             ) : (
-                <div className='card m-3'>
-                  <ul className='list-group list-group-flush p-3'>
-                    {
-                      books.map(({ title, description = '', authors = '' }) => {
-                        return (
-                          <li key={title} className='list-group-item p-3'>
-                            <h3>Title: {title}</h3>
+              <div className='card m-3'>
+                <ul className='list-group list-group-flush p-3'>
+                  {
+                    books.map(({ title, description = '', authors = '' , id}) => {
+                      return (
+                        <li key={id} className='list-group-item p-3'>
+                          <h3>Title: {title}</h3>
 
-                            {
-                              description ? <p>Description: {description}</p> : null
-                            }
+                          {
+                            description ? <p>Description: {description}</p> : null
+                          }
 
-                            <p>
-                              Authors: {authors ? authors.join(', ') : null}
-                            </p>
-                          </li>
-                        )
-                      })
-                    }
-                  </ul>
-                </div>
-              )}
+                          <p>
+                            Authors: {authors ? authors.join(', ') : null}
+                          </p>
+                        </li>
+                      )
+                    })
+                  }
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </main>

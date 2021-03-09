@@ -4,7 +4,7 @@ const connection = require('../config/pool.js')
 module.exports = {
   getAllDbBooksByQueryString: (queryString, callBack) => {
     const sqlSelectWhereQueryString =
-      'SELECT title, authors, description, categories, publisher, published_date, preview_link FROM books WHERE query_string = $1'
+      'SELECT title, authors, description, categories, publisher, published_date, preview_link, id FROM books WHERE query_string = $1'
     connection
       .query(sqlSelectWhereQueryString, [queryString])
       .then(dbResults => callBack(null, dbResults))
